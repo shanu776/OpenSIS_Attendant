@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/message_activity">
+   <LinearLayout
+       android:orientation="vertical"
+       android:layout_width="match_parent"
+       android:layout_height="match_parent">
+
+       <include layout="@layout/actionbar"
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"/>
+
+       <ListView
+           android:layout_width="match_parent"
+           android:layout_height="match_parent"
+           android:layout_marginEnd="15dp"
+           android:layout_marginLeft="15dp"
+           android:layout_marginRight="15dp"
+           android:layout_marginStart="15dp"
+           android:layout_marginTop="15dp"
+           android:dividerHeight="10.0sp"
+           android:divider="@android:color/transparent"
+           android:id="@+id/messageList">
+
+       </ListView>
+
+
+   </LinearLayout>
+
+    <android.support.design.widget.NavigationView
+        android:layout_width="wrap_content"
+        app:theme="@style/toolbarTheme"
+        android:layout_height="match_parent"
+        android:background="#404040"
+        app:menu="@menu/menubar_items"
+        android:layout_gravity="start"
+        app:headerLayout="@layout/menubar_header"
+        android:id="@+id/navigationbar"
+        app:itemBackground="@drawable/line">
+    </android.support.design.widget.NavigationView>
+
+
+</android.support.v4.widget.DrawerLayout>

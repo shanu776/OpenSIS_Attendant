@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/profile_activity">
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <include layout="@layout/actionbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginRight="15dp"
+            android:layout_marginLeft="15dp">
+
+
+            <TextView
+                android:text="TeacherName"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:layout_below="@+id/imageView2"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="13dp"
+                android:id="@+id/textView2"
+                android:textAlignment="center"
+                android:textStyle="normal|bold"
+                android:textSize="24sp" />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textEmailAddress"
+                android:ems="10"
+                android:layout_below="@+id/textView3"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:id="@+id/updateEmail"
+                android:hint="example@gmail.com" />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="phone"
+                android:ems="10"
+                android:layout_below="@+id/textView9"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:id="@+id/updatePhoneNumber"
+                android:hint="Number" />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPassword"
+                android:ems="10"
+                android:layout_below="@+id/textView10"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:id="@+id/updatePassword"
+                android:hint="password" />
+
+            <ImageView
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                app:srcCompat="@drawable/user"
+                android:layout_marginTop="15dp"
+                android:id="@+id/imageView2"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true" />
+
+            <TextView
+                android:text="Email"
+                android:layout_width="match_parent"
+                android:layout_height="25dp"
+                android:layout_marginTop="19dp"
+                android:id="@+id/textView3"
+                android:textSize="18sp"
+                android:textStyle="normal|bold"
+                android:layout_below="@+id/textView2"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true" />
+
+            <TextView
+                android:text="Phone"
+                android:layout_width="match_parent"
+                android:layout_height="25dp"
+                android:id="@+id/textView9"
+                android:textStyle="normal|bold"
+                android:textSize="18sp"
+                android:layout_below="@+id/updateEmail"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true" />
+
+            <TextView
+                android:text="Password"
+                android:layout_width="match_parent"
+                android:layout_height="25dp"
+                android:id="@+id/textView10"
+                android:textStyle="normal|bold"
+                android:textSize="18sp"
+                android:layout_below="@+id/updatePhoneNumber"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true" />
+
+            <TextView
+                android:text="RePassword"
+                android:layout_width="match_parent"
+                android:layout_height="25dp"
+                android:id="@+id/textView11"
+                android:textStyle="normal|bold"
+                android:textSize="18sp"
+                android:layout_below="@+id/updatePassword"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true" />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPassword"
+                android:ems="10"
+                android:id="@+id/reEnterPassword"
+                android:hint="re enter password"
+                android:layout_below="@+id/textView11"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:imeOptions="actionDone"/>
+
+        </RelativeLayout>
+
+
+    </LinearLayout>
+
+    <android.support.design.widget.NavigationView
+        android:layout_width="wrap_content"
+        app:theme="@style/toolbarTheme"
+        android:layout_height="match_parent"
+        android:background="#404040"
+        app:menu="@menu/menubar_items"
+        android:layout_gravity="start"
+        app:headerLayout="@layout/menubar_header"
+        android:id="@+id/navigationbar"
+        app:itemBackground="@drawable/line">
+    </android.support.design.widget.NavigationView>
+
+
+</android.support.v4.widget.DrawerLayout>

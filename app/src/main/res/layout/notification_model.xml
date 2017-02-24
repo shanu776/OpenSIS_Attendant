@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/round_corner">
+
+    <TextView
+        android:text="Date"
+        android:layout_width="80dp"
+        android:layout_height="40dp"
+        android:id="@+id/date"
+        android:textColor="@color/date"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:fontFamily="sans-serif"
+        android:textSize="36sp"
+        android:textAlignment="center"
+        android:textStyle="normal|bold" />
+
+    <TextView
+        android:text="Month"
+        android:layout_width="80dp"
+        android:layout_height="50dp"
+        android:id="@+id/month"
+        android:textColor="@color/month_black"
+        android:layout_below="@+id/date"
+        android:layout_alignLeft="@+id/date"
+        android:layout_alignStart="@+id/date"
+        android:textAlignment="center"
+        android:textSize="30sp"
+        android:textStyle="normal|bold"
+        android:fontFamily="sans-serif" />
+
+    <TextView
+        android:text="Message"
+        android:layout_width="250dp"
+        android:layout_height="70dp"
+        android:id="@+id/notification"
+        android:textColor="@color/notification_color"
+        android:textAlignment="textStart"
+        android:textSize="18sp"
+        android:layout_alignBaseline="@+id/date"
+        android:layout_alignBottom="@+id/date"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:textStyle="normal|bold" />
+</RelativeLayout>
