@@ -16,17 +16,6 @@
         android:textSize="18sp"
         android:textAllCaps="false" />
 
-    <ImageView
-        android:layout_width="70dp"
-        android:layout_height="70dp"
-        app:srcCompat="@drawable/user"
-        android:id="@+id/studentImage"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="5dp"
-        android:layout_marginBottom="5dp" />
-
     <TextView
         android:text="childname"
         android:layout_width="150dp"
@@ -41,4 +30,13 @@
         android:layout_alignParentTop="true"
         android:layout_toRightOf="@+id/studentImage"
         android:layout_toEndOf="@+id/studentImage" />
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        app:srcCompat="@drawable/user"
+        android:id="@+id/studentImage"
+        android:layout_alignTop="@+id/childname"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 </RelativeLayout>

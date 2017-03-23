@@ -2,17 +2,24 @@ package com.opensis.shanu.opensis_attendant;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.StrictMode;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -39,7 +46,8 @@ import java.util.Map;
  * Created by Shanu on 2/21/2017.
  */
 
-public class NotificationActivity extends AppCompatActivity{
+public class NotificationActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener {
+
     public enum MonthSpel {
         JAN(1),FEB(2),MAR(3),APR(4),MAY(5),JUN(6),JUL(7),AUG(8),SEP(9),OCT(10),NEV(11),DEC(12);
 
@@ -59,10 +67,18 @@ public class NotificationActivity extends AppCompatActivity{
     Toolbar mToolBar;
     NavigationView navigationView;
     NotificationAdaptor adaptor;
+    SwipeRefreshLayout swipeRefreshLayout;
+    ImageView menuImage;
+    TextView menuTitle;
+    View headerView;
+    String menuImagePath= Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).toString()+"/";
+    String url;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        url=getString(R.string.url);
         setContentView(R.layout.notification_activity);
+        DatabaseHandler handler=new DatabaseHandler(this);
         mDrawerLayout= (DrawerLayout) findViewById(R.id.notification_activity);
         mToolBar= (Toolbar) findViewById(R.id.actionbar);
         mToolBar.setTitle("Notification");
@@ -73,7 +89,17 @@ public class NotificationActivity extends AppCompatActivity{
         mToggle.syncState();
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        swipeRefreshLayout= (SwipeRefreshLayout) findViewById(R.id.updateNotification);
         navigationView= (NavigationView) findViewById(R.id.navigationbar);
+        headerView=navigationView.inflateHeaderView(R.layout.menubar_header);
+        menuTitle= (TextView) headerView.findViewById(R.id.menu_header_title);
+        menuImage= (ImageView) headerView.findViewById(R.id.menu_header_image);
+        List<AttendantBean> attendant=handler.getAttendantData();
+        for (AttendantBean a:attendant){
+            menuTitle.setText(a.getName());
+            menuImage.setImageBitmap(BitmapFactory.decodeFile(menuImagePath+a.getEmail()+".jpg"));
+        }
+
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(MenuItem item) {
@@ -113,11 +139,8 @@ public class NotificationActivity extends AppCompatActivity{
                 return false;
             }
         });
-
-        NotificationData notificationData=new NotificationData();
-        notificationData.execute();
-
-
+        swipeRefreshLayout.setSoundEffectsEnabled(true);
+        swipeRefreshLayout.setOnRefreshListener(this);
     }
 
     @Override
@@ -128,6 +151,33 @@ public class NotificationActivity extends AppCompatActivity{
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onRefresh() {
+        Thread t=new Thread(new Runnable() {
+            @Override
+            public void run() {
+                TestConnection test=new TestConnection();
+                if(test.pingHost()) {
+                    NotificationData notificationData = new NotificationData();
+                    notificationData.execute();
+                }
+                else {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(NotificationActivity.this,"Network Not Available",Toast.LENGTH_LONG).show();
+                            if(swipeRefreshLayout.isRefreshing())
+                            {
+                                swipeRefreshLayout.setRefreshing(false);
+                            }
+                        }
+                    });
+                }
+            }
+        });
+        t.start();
     }
 
 
@@ -142,7 +192,7 @@ public class NotificationActivity extends AppCompatActivity{
         protected Map<String, Object> doInBackground(String... params) {
             try {
             HttpClient httpClient = new DefaultHttpClient();
-            HttpPost httpPost = new HttpPost("http://192.168.1.101:8080/OpenSIS/getBroadcastdata.htm");
+            HttpPost httpPost = new HttpPost(url+"getBroadcastdata.htm");
             List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(1);
             nameValuePairs.add(new BasicNameValuePair("teacher", "teacher"));
                 httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
@@ -189,6 +239,10 @@ public class NotificationActivity extends AppCompatActivity{
         @Override
         protected void onPostExecute(Map<String, Object> stringObjectMap) {
             super.onPostExecute(stringObjectMap);
+            if (swipeRefreshLayout.isRefreshing())
+            {
+                swipeRefreshLayout.setRefreshing(false);
+            }
             adaptor = new NotificationAdaptor(NotificationActivity.this, this.date, this.month, this.message);
             newList= (ListView) findViewById(R.id.notificationList);
             newList.setAdapter(adaptor);

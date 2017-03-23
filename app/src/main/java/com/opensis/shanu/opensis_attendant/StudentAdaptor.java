@@ -1,6 +1,7 @@
 package com.opensis.shanu.opensis_attendant;
 
 import android.content.Context;
+import android.graphics.BitmapFactory;
 import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,14 +18,14 @@ public class StudentAdaptor extends ArrayAdapter{
 
     String[] name;
     String[] beaconID;
-    int[] image;
+    String[] image;
     LayoutInflater inflater;
     Context c;
-    public StudentAdaptor(Context context, String[] name,String[] beaconID) {
+    public StudentAdaptor(Context context, String[] name,String[] beaconID,String[] image) {
         super(context, R.layout.dashboard_model,name);
         this.name=name;
         this.beaconID=beaconID;
-      /*  this.image=image;*/
+        this.image=image;
         this.c=context;
     }
 
@@ -49,7 +50,7 @@ public class StudentAdaptor extends ArrayAdapter{
 
         view.name.setText(name[position]);
         view.beaconId.setText(beaconID[position]);
-
+        view.image.setImageBitmap(BitmapFactory.decodeFile(image[position]));
         return convertView;
     }
 }

@@ -3,4 +3,5 @@
     <string name="open">open</string>
     <string name="close">close</string>
     <string name="message">Message</string>
+    <string name="url">http://52.38.90.246:8080/OpenSIS/</string>
 </resources>

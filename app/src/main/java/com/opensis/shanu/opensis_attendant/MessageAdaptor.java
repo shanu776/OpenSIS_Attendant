@@ -1,6 +1,7 @@
 package com.opensis.shanu.opensis_attendant;
 
 import android.content.Context;
+import android.graphics.BitmapFactory;
 import android.media.Image;
 import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
@@ -21,10 +22,10 @@ public class MessageAdaptor extends ArrayAdapter<String> {
     String[] name;
     String[] message;
     String[] date;
-    int[] image;
+    String[] image;
     Context c;
     LayoutInflater inflater;
-    public MessageAdaptor(Context context, String[] date, String[] name, String[] message, int[] image) {
+    public MessageAdaptor(Context context,  String[] name, String[] message,String[] image,String[] date) {
         super(context, R.layout.message_model,name);
         this.name=name;
         this.message=message;
@@ -49,8 +50,15 @@ public class MessageAdaptor extends ArrayAdapter<String> {
             convertView=inflater.inflate(R.layout.message_model,null);
         }
         MessageViewholder msgViewhlder=new MessageViewholder();
+        msgViewhlder.name= (TextView) convertView.findViewById(R.id.message_name);
+        msgViewhlder.message= (TextView) convertView.findViewById(R.id.message);
+        msgViewhlder.image= (ImageView) convertView.findViewById(R.id.message_image);
+        msgViewhlder.date= (TextView) convertView.findViewById(R.id.date);
 
-
-        return super.getView(position, convertView, parent);
+        msgViewhlder.name.setText(name[position]);
+        msgViewhlder.message.setText(message[position]);
+        msgViewhlder.image.setImageBitmap(BitmapFactory.decodeFile(image[position]));
+        msgViewhlder.date.setText(date[position]);
+        return convertView;
     }
 }

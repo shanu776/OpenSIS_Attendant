@@ -9,7 +9,20 @@ public class StudentBean {
     String name;
     String beacon_id;
     String email;
+    String image_title;
     String image;
+
+    public StudentBean() {
+
+    }
+
+    public StudentBean(String name, String beacon_id, String email, String image_title, String image) {
+        this.name = name;
+        this.beacon_id = beacon_id;
+        this.email = email;
+        this.image_title = image_title;
+        this.image = image;
+    }
 
     public Integer getId() {
         return id;
@@ -43,23 +56,19 @@ public class StudentBean {
         this.email = email;
     }
 
+    public String getImage_title() {
+        return image_title;
+    }
+
+    public void setImage_title(String image_title) {
+        this.image_title = image_title;
+    }
+
     public String getImage() {
         return image;
     }
 
     public void setImage(String image) {
         this.image = image;
-    }
-
-    public StudentBean( String name, String beacon_id, String email, String image) {
-
-        this.name = name;
-        this.beacon_id = beacon_id;
-        this.email = email;
-        this.image = image;
-    }
-
-    public StudentBean() {
-
     }
 }

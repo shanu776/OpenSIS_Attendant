@@ -38,7 +38,6 @@
         android:background="#404040"
         app:menu="@menu/menubar_items"
         android:layout_gravity="start"
-        app:headerLayout="@layout/menubar_header"
         android:id="@+id/navigationbar"
         app:itemBackground="@drawable/line">
     </android.support.design.widget.NavigationView>
