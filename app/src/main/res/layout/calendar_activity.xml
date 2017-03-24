@@ -5,6 +5,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/calendar_activity">
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/updateCalendarData">
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
@@ -13,13 +17,35 @@
         <include layout="@layout/actionbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
-        <CalendarView
+        <com.prolificinteractive.materialcalendarview.MaterialCalendarView
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/eventCalendarView"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"></CalendarView>
+            android:layout_height="350dp"
+            app:mcv_showOtherDates="all"
+            app:mcv_selectionColor="#00F"
+            />
+
+        <TextView
+            android:text="Title"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:id="@+id/eventTitle"
+            android:textAlignment="center"
+            android:textSize="24sp"
+            android:textStyle="normal|bold"
+            android:textColor="@color/colorAccent" />
+
+        <TextView
+            android:text="Message"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/eventMessage"
+            android:textSize="18sp" />
 
 
     </LinearLayout>
-
+    </android.support.v4.widget.SwipeRefreshLayout>
     <android.support.design.widget.NavigationView
         android:layout_width="wrap_content"
         app:theme="@style/toolbarTheme"
@@ -27,7 +53,7 @@
         android:background="#404040"
         app:menu="@menu/menubar_items"
         android:layout_gravity="start"
-        app:headerLayout="@layout/menubar_header"
+
         android:id="@+id/navigationbar"
         app:itemBackground="@drawable/line">
     </android.support.design.widget.NavigationView>

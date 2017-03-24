@@ -5,6 +5,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/notification_activity">
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/updateNotification">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -28,7 +32,7 @@
 
 
     </LinearLayout>
-
+    </android.support.v4.widget.SwipeRefreshLayout>
     <android.support.design.widget.NavigationView
         android:layout_width="wrap_content"
         app:theme="@style/toolbarTheme"
@@ -36,7 +40,7 @@
         android:background="#404040"
         app:menu="@menu/menubar_items"
         android:layout_gravity="start"
-        app:headerLayout="@layout/menubar_header"
+
         android:id="@+id/navigationbar"
         app:itemBackground="@drawable/line">
     </android.support.design.widget.NavigationView>

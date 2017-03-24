@@ -25,10 +25,10 @@
                 android:text="TeacherName"
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
-                android:layout_below="@+id/imageView2"
+                android:layout_below="@+id/userImage"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="13dp"
-                android:id="@+id/textView2"
+                android:id="@+id/username"
                 android:textAlignment="center"
                 android:textStyle="normal|bold"
                 android:textSize="24sp" />
@@ -66,12 +66,12 @@
                 android:id="@+id/updatePassword"
                 android:hint="password" />
 
-            <ImageView
+            <de.hdodenhof.circleimageview.CircleImageView
                 android:layout_width="100dp"
                 android:layout_height="100dp"
                 app:srcCompat="@drawable/user"
                 android:layout_marginTop="15dp"
-                android:id="@+id/imageView2"
+                android:id="@+id/userImage"
                 android:layout_alignParentTop="true"
                 android:layout_centerHorizontal="true" />
 
@@ -83,7 +83,7 @@
                 android:id="@+id/textView3"
                 android:textSize="18sp"
                 android:textStyle="normal|bold"
-                android:layout_below="@+id/textView2"
+                android:layout_below="@+id/username"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true" />
 
@@ -144,7 +144,7 @@
         android:background="#404040"
         app:menu="@menu/menubar_items"
         android:layout_gravity="start"
-        app:headerLayout="@layout/menubar_header"
+
         android:id="@+id/navigationbar"
         app:itemBackground="@drawable/line">
     </android.support.design.widget.NavigationView>

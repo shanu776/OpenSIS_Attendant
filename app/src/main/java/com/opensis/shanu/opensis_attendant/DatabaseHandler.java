@@ -19,6 +19,7 @@ public class DatabaseHandler extends SQLiteOpenHelper{
     private static final String DATABASE_NAME="OpenSIS";
     private static final String TABLE_Name = "Attendant";
     private static final String TABLE_NAME_TWO="students";
+    private static final String TABLE_NAME_THREE="calendar_event";
 
     //Collumn names
     private static final String KEY_ID="id";
@@ -33,12 +34,19 @@ public class DatabaseHandler extends SQLiteOpenHelper{
     private static final String STUDENT_NAME="name";
     private static final String STUDENT_BEACON_ID="beacon_id";
     private static final String STUDENT_EMAIL="email";
+    private static final String IMAGE_TITLE="image_title";
     private static final String STUDENT_IMAGE="image";
+
+    private static final String KEY_ID_THREE="id";
+    private static final String EVENT_ID="event_id";
+    private static final String TITLE="title";
+    private static final String MESSAGE="message";
+    private static final String DATE="date";
 
 
     public DatabaseHandler(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
-       /* context.deleteDatabase(DATABASE_NAME);*/
+    /*    context.deleteDatabase(DATABASE_NAME);*/
     }
 
 
@@ -48,14 +56,18 @@ public class DatabaseHandler extends SQLiteOpenHelper{
        /* db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME_TWO);*/
     String CREATE_ATTENDANT_TABLE="CREATE TABLE " + TABLE_Name + "("
             + KEY_ID + " INTEGER PRIMARY KEY,"+ ATTENDANT_ID + " INTEGER," + ATTENDANT_NAME + " TEXT,"
-            + ATTENDAENT_PHONE + " TEXT," + ATTENDANT_EMAIL + " TEXT,"+ ATTENDANT_BEACON_ID + " TEXT," + ATTENDANT_IMAGE + " BLOB " + ")";
+            + ATTENDAENT_PHONE + " TEXT," + ATTENDANT_EMAIL + " TEXT UNIQUE,"+ ATTENDANT_BEACON_ID + " TEXT," + ATTENDANT_IMAGE + " BLOB " + ")";
 
     String CREATE_STUDENT_TABLE="CREATE TABLE " +TABLE_NAME_TWO+ "("+KEY_ID_TWO+ " INTEGER PRIMARY KEY," +STUDENT_NAME+ " TEXT,"
         +STUDENT_BEACON_ID+ " TEXT," +STUDENT_EMAIL+ " " +
-            "TEXT UNIQUE," +STUDENT_IMAGE+ " BLOB " +")";
+            "TEXT UNIQUE," +IMAGE_TITLE+ " TEXT," +STUDENT_IMAGE+ " BLOB " +")";
+
+    String CREATE_CALENDAREVENT_TABLE= " CREATE TABLE "+ TABLE_NAME_THREE + "("
+            + KEY_ID_THREE + " INTEGER PRIMARY KEY,"+ EVENT_ID + " TEXT UNIQUE,"+ TITLE + " TEXT," + MESSAGE + " TEXT," + DATE + " TEXT " + ")";
 
         db.execSQL(CREATE_ATTENDANT_TABLE);
         db.execSQL(CREATE_STUDENT_TABLE);
+        db.execSQL(CREATE_CALENDAREVENT_TABLE);
     }
 
     @Override
@@ -77,7 +89,7 @@ public class DatabaseHandler extends SQLiteOpenHelper{
         value.put(ATTENDANT_EMAIL,attendantBean.getEmail());
         value.put(ATTENDANT_BEACON_ID,attendantBean.getBeaconId());
         value.put(ATTENDANT_IMAGE,attendantBean.getImage());
-        db.insert(TABLE_Name,null,value);
+        db.insertWithOnConflict(TABLE_Name,null,value,SQLiteDatabase.CONFLICT_REPLACE);
         db.close();
     }
 
@@ -88,8 +100,22 @@ public class DatabaseHandler extends SQLiteOpenHelper{
         value.put(STUDENT_NAME,studentBean.getName());
         value.put(STUDENT_EMAIL,studentBean.getEmail());
         value.put(STUDENT_BEACON_ID,studentBean.getBeacon_id());
+        value.put(IMAGE_TITLE,studentBean.getImage_title());
         value.put(STUDENT_IMAGE,studentBean.getImage());
         db.insert(TABLE_NAME_TWO,null,value);
+        db.close();
+    }
+
+    public void addCalendarEvent(CalendarEvent calenderEvent)
+    {
+        SQLiteDatabase db=getWritableDatabase();
+        ContentValues value=new ContentValues();
+        value.put(EVENT_ID,calenderEvent.getEvent_id());
+        value.put(TITLE,calenderEvent.getTitle());
+        value.put(MESSAGE,calenderEvent.getMessage());
+        value.put(DATE,calenderEvent.getDate());
+       /* db.insert(TABLE_NAME_THREE,null,value);*/
+        db.insertWithOnConflict(TABLE_NAME_THREE,null,value,SQLiteDatabase.CONFLICT_REPLACE);
         db.close();
     }
 
@@ -130,11 +156,49 @@ public class DatabaseHandler extends SQLiteOpenHelper{
                 studentBean.setName(cursor.getString(1));
                 studentBean.setEmail(cursor.getString(2));
                 studentBean.setBeacon_id(cursor.getString(3));
-                studentBean.setImage(cursor.getString(4));
+                studentBean.setImage(cursor.getString(5));
                 studentList.add(studentBean);
             }while (cursor.moveToNext());
         }
         return studentList;
+    }
+
+    public List<CalendarEvent> getCalendarData(){
+        List<CalendarEvent> calenderEventList= new ArrayList<CalendarEvent>();
+        String selectQuery="SELECT * FROM "+TABLE_NAME_THREE;
+        SQLiteDatabase db=this.getWritableDatabase();
+        Cursor cursor=db.rawQuery(selectQuery,null);
+        if(cursor.moveToFirst()){
+            do{
+                CalendarEvent cal=new CalendarEvent();
+                cal.setId(Integer.parseInt(cursor.getString(0)));
+                cal.setEvent_id(Integer.parseInt(cursor.getString(1)));
+                cal.setTitle(cursor.getString(2));
+                cal.setMessage(cursor.getString(3));
+                cal.setDate(cursor.getString(4));
+                calenderEventList.add(cal);
+            }while (cursor.moveToNext());
+        }
+        return calenderEventList;
+    }
+
+    public List<CalendarEvent> getCalendarMessage(String date){
+        List<CalendarEvent> calenderEventList= new ArrayList<CalendarEvent>();
+        String selectQuery="SELECT * FROM "+TABLE_NAME_THREE+ " WHERE date = '" + date +"'";
+        SQLiteDatabase db=this.getWritableDatabase();
+        Cursor cursor=db.rawQuery(selectQuery,null);
+        if(cursor.moveToFirst()){
+            do{
+                CalendarEvent cal=new CalendarEvent();
+                cal.setId(Integer.parseInt(cursor.getString(0)));
+                cal.setEvent_id(Integer.parseInt(cursor.getString(1)));
+                cal.setTitle(cursor.getString(2));
+                cal.setMessage(cursor.getString(3));
+                cal.setDate(cursor.getString(4));
+                calenderEventList.add(cal);
+            }while (cursor.moveToNext());
+        }
+        return calenderEventList;
     }
 
     public boolean doesTableExist() {
