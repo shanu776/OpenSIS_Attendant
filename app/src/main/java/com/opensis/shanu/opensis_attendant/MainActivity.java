@@ -61,7 +61,7 @@ import java.util.Set;
 
 import static java.lang.Thread.sleep;
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
+public class MainActivity extends AppCompatActivity implements BeaconConsumer,NavigationView.OnNavigationItemSelectedListener{
 
     DrawerLayout mDrawerLayout;
     Toolbar mToolBar;
@@ -124,10 +124,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             navigationView.setNavigationItemSelectedListener(this);
         /*==========================================================beaconConfigurationHere=================================================*/
 
-            /*beaconManager=BeaconManager.getInstanceForApplication(this);
+            beaconManager=BeaconManager.getInstanceForApplication(this);
             beaconManager.getBeaconParsers().add(new BeaconParser()
                     .setBeaconLayout("m:2-3=0215,i:4-19,i:20-21,i:22-23,p:24-24,d:25-25"));
-            beaconManager.bind(this);*/
+            beaconManager.bind(this);
 
         /*=========================================================StudentOutOfRange=========================================================*/
 
@@ -251,7 +251,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return super.onOptionsItemSelected(item);
     }
 
-    /*@Override
+    @Override
     public void onBeaconServiceConnect() {
         try {
             beaconManager.startRangingBeaconsInRegion(new Region("myRangingUniqueId", null, null, null));
@@ -271,7 +271,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 }
             }
         });
-    }*/
+    }
 
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
@@ -471,8 +471,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        /*if(check)
-         beaconManager.unbind(this);*/
+        if(check)
+         beaconManager.unbind(this);
     }
 }
 
