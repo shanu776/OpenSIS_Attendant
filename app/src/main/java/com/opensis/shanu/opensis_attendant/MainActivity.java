@@ -202,7 +202,7 @@ public class MainActivity extends AppCompatActivity implements BeaconConsumer,Na
             studentAdaptor = new StudentAdaptor(MainActivity.this, this.name, this.beaconID,this.imagePath);
             listView.setAdapter(studentAdaptor);
         }
-        /*==========================else mean first time use this app send to the loginn page and apply database operations===================*/
+        /*===========================else mean first time use this app send to the loginn page and apply database operations===================*/
         else {
             setContentView(R.layout.login_activity);
             mDrawerLayout = (DrawerLayout) findViewById(R.id.login_activity);
