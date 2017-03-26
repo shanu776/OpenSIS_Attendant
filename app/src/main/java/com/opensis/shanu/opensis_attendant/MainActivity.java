@@ -16,6 +16,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -248,6 +250,30 @@ public class MainActivity extends AppCompatActivity implements BeaconConsumer,Na
         if (mToggle.onOptionsItemSelected(item)) {
             return true;
         }
+        if(item.getItemId()==R.id.data_synchronization){
+            Thread t=new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    TestConnection test=new TestConnection();
+                    if(test.pingHost()){
+                        DatabaseSyncSecondTime sync=new DatabaseSyncSecondTime(MainActivity.this);
+                        sync.execute();
+                    }
+                    else{
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(MainActivity.this,"Netowork not available",Toast.LENGTH_LONG).show();
+                            }
+                        });
+                    }
+                }
+            });
+            t.start();
+            Intent sync=new Intent(MainActivity.this,MainActivity.class);
+            startActivity(sync);
+            finish();
+        }
         return super.onOptionsItemSelected(item);
     }
 
@@ -304,7 +330,7 @@ public class MainActivity extends AppCompatActivity implements BeaconConsumer,Na
                 finish();
                 break;
             case R.id.signout:
-                Intent sync=new Intent(MainActivity.this,MainActivity.class);
+                /*Intent sync=new Intent(MainActivity.this,MainActivity.class);
                 Thread t=new Thread(new Runnable() {
                     @Override
                     public void run() {
@@ -325,12 +351,18 @@ public class MainActivity extends AppCompatActivity implements BeaconConsumer,Na
                 });
                 t.start();
                 startActivity(sync);
-                finish();
+                finish();*/
                 break;
         }
         return false;
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater menuInflater=getMenuInflater();
+        menuInflater.inflate(R.menu.actionbar_menu,menu);
+        return true;
+    }
 
     public class DatabaseSynch extends AsyncTask {
         DatabaseHandler db = new DatabaseHandler(MainActivity.this);

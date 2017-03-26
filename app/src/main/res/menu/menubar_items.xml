@@ -21,8 +21,10 @@
     <item android:title="Profile"
         android:id="@+id/profile"
         android:icon="@drawable/user1"></item>
+
     <item android:title="SyncDatabase"
         android:id="@+id/signout"
-        android:icon="@drawable/logout1"></item>
+        android:icon="@drawable/logout1"
+        android:visible="false"></item>
 </group>
 </menu>
